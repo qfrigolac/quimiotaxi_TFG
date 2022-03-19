@@ -1,4 +1,4 @@
-N = 501;
+N = 51;
 h = 0.1;
 Dt = 0.00001;
 Db = 18;
@@ -153,6 +153,9 @@ set(k,'LineStyle','none');
 hold on
 plot3(indx,[N/2+0.5 N/2+0.5],p(indx,N/2+0.5),'.r','markersize',10);
 plot3([N/2+0.5 N/2+0.5],indy,p(N/2+0.5,indy),'.r','markersize',10);
+plot3([N/2+0.5 N/2+0.5],indy+12,p(N/2+0.5,indy+12),'.r','markersize',10);
+plot3([N/2+0.5 N/2+0.5],indy-12,p(N/2+0.5,indy-12),'.r','markersize',10);
+
 plot3([N/2+0.5 N/2+0.5],indy(1)+ind2y,p(N/2+0.5,indy(1)+ind2y),'.r','markersize',10);
 hold off
 
