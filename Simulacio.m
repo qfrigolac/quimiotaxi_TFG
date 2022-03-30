@@ -120,8 +120,11 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
             end
 
 
-        avg=p(N/2+0.5,indy(1)+ind2y)+(p(N/2+0.5,indy(1))-p(N/2+0.5,indy(1)+ind2y))*2/3;
-        gruix(1,i/100) = find((p(N/2+0.5,(indy(1):indy(2))))<=avg,1)-find((p(N/2+0.5,(indy(1):indy(2))))>=avg,1);
+        avg=p(N/2+0.5,indy(1)+ind2y)+(p(N/2+0.5,indy(1))-p(N/2+0.5,indy(1)+ind2y))*9/10;
+        gruix(1,i/100) = -1;
+        if abs(indy(1)-indy(2))>1 && isempty(find((p(N/2+0.5,(indy(1):indy(2))))<=avg,1))==0 && isempty(find((p(N/2+0.5,(1:indy(1))))>=avg,1))==0
+            gruix(1,i/100) = indy(1)+find((p(N/2+0.5,(indy(1):indy(1)+ind2y)))<=avg,1)-find((p(N/2+0.5,(1:indy(1))))>=avg,1);
+        end
         end
         if mod(i,1000)==0
             writematrix(p,dir+"/p_"+nom+"(t="+i+").txt",'Delimiter','tab')
