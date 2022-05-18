@@ -1,12 +1,12 @@
 %% Gràfics de punt concret en el temps
-carpeta = "k_p=100";
-nom = '(n1=0)(t=5000)';
-N = 51;
+carpeta = "sim2_provs";
+nom = 'des(nf=10,gam=0.0001)(t=1000)';
+N = 501;
 
 rutap = '/'+carpeta+'/p_'+nom+'.txt';
-rutac = '/'+carpeta+'/c_'+nom+'.txt';
+%rutac = '/'+carpeta+'/c_'+nom+'.txt';
 p=readmatrix(rutap);
-c=readmatrix(rutac);
+%c=readmatrix(rutac);
 
 
 k = figure();
@@ -15,23 +15,22 @@ set(k,'LineStyle','none');
 hold off
 
 
-figure();
-colormap hot;
-d=surf(1:N,1:N,c(2:N+1,2:N+1));
-set(d,'LineStyle','none');
-hold off
+% figure();
+% colormap hot;
+% d=surf(1:N,1:N,c(2:N+1,2:N+1));
+% set(d,'LineStyle','none');
+% hold off
 
 %% Animació en el temps de p
-clc
-clear
-carpeta = "k_p=200";
-nom = '(n1=0)';
-N = 51;
 
-v = VideoWriter('graf.mp4');
+carpeta = "sim2_provs";
+nom = 'des(nf=10,gam=0.0001)';
+N = 501;
+
+v = VideoWriter(['sim2-1.mp4']);
 open(v);
 % F = zeros(1,10000);
-for i = 1000:1000:10000
+for i = 100:100:1000
     rutap = '/'+carpeta+'/p_'+nom+'(t='+i+')'+'.txt';
     p=readmatrix(rutap);
     s = figure;
@@ -46,9 +45,9 @@ close(v)
 %% Animació en el temps de c
 clc
 clear
-carpeta = "k_p=200";
-nom = '(n1=0)';
-N = 51;
+carpeta = "k_7=100";
+nom = '(a=0.1)';
+N = 501;
 
 v = VideoWriter('graf.mp4');
 open(v);

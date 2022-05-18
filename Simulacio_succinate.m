@@ -1,7 +1,8 @@
-function Simulacio(N,n1,h,Dt,Db,k,a,alp,iter,nom,dir)
+function Simulacio_succinate(N,n1,n2,h,Dt,Db,Df,k,a,alp,gam,iter,nom,dir)
 Dc = 32;
 p = zeros(N+2,N+2);
 c = zeros(N+2,N+2);
+f = zeros(N+2,N+2);
 
 rx = zeros(1,iter/100);
 ry = zeros(1,iter/100);
@@ -19,12 +20,18 @@ kc1 = zeros(N+2,N+2);
 kc2 = zeros(N+2,N+2);
 kc3 = zeros(N+2,N+2);
 
+tempf = zeros(N+2,N+2);
+kf1 = zeros(N+2,N+2);
+kf2 = zeros(N+2,N+2);
+kf3 = zeros(N+2,N+2);
+
 n= 0;
 p(floor(N/2)+2-n:floor(N/2)+2+n,floor(N/2)+2-n:floor(N/2)+2+n) = 10;
 c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
+f(floor(N/2)+2-n2:floor(N/2)+2+n2,floor(N/2)+2-n2:floor(N/2)+2+n2) = 1;
 %writematrix(p,"p_"+nom+"(t=0).txt",'Delimiter','tab');
     for i = 1:iter
-        [kp1(2:N+1,2:N+1),kc1(2:N+1,2:N+1)] = Quimotaxi(p,c,N,Db,Dc,h,k,a,alp);
+        [kp1(2:N+1,2:N+1),kc1(2:N+1,2:N+1),kf1(2:N+1,2:N+1)] = Quimotaxi_succinate(p,c,f,N,Db,Dc,Df,h,k,a,alp,gam);
         
         kp1(1,:) = -kp1(2,:);
         kp1(N+2,:) = -kp1(N+1,:);
@@ -35,11 +42,17 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
         kc1(N+2,:) = -kc1(N+1,:);
         kc1(:,1) = -kc1(:,2);
         kc1(:,N+2) = -kc1(:,N+1);
+
+        kf1(1,:) = -kf1(2,:);
+        kf1(N+2,:) = -kf1(N+1,:);
+        kf1(:,1) = -kf1(:,2);
+        kf1(:,N+2) = -kf1(:,N+1);
     
         
         tempp = p + 1/3*Dt*kp1;
         tempc = c + 1/3*Dt*kc1;
-    
+        tempf = f + 1/3*Dt*kf1;
+
         tempp(1,:) = -tempp(2,:);
         tempp(N+2,:) = -tempp(N+1,:);
         tempp(:,1) = -tempp(:,2);
@@ -50,9 +63,13 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
         tempc(:,1) = -tempc(:,2);
         tempc(:,N+2) = -tempc(:,N+1);
         
+        tempf(1,:) = -tempf(2,:);
+        tempf(N+2,:) = -tempf(N+1,:);
+        tempf(:,1) = -tempf(:,2);
+        tempf(:,N+2) = -tempf(:,N+1);
         
-        
-        [kp2(2:N+1,2:N+1),kc2(2:N+1,2:N+1)] = Quimotaxi(tempp,tempc,N,Db,Dc,h,k,a,alp);
+
+        [kp2(2:N+1,2:N+1),kc2(2:N+1,2:N+1),kf2(2:N+1,2:N+1)] = Quimotaxi_succinate(tempp,tempc,tempf,N,Db,Dc,Df,h,k,a,alp,gam);
         
         kp2(1,:) = -kp2(2,:);
         kp2(N+2,:) = -kp2(N+1,:);
@@ -63,10 +80,16 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
         kc2(N+2,:) = -kc2(N+1,:);
         kc2(:,1) = -kc2(:,2);
         kc2(:,N+2) = -kc2(:,N+1);
-    
-    
+
+        kf2(1,:) = -kf2(2,:);
+        kf2(N+2,:) = -kf2(N+1,:);
+        kf2(:,1) = -kf2(:,2);
+        kf2(:,N+2) = -kf2(:,N+1);    
+
+         
         tempp = p + 2/3*Dt*kp2;
         tempc = c + 2/3*Dt*kc2;
+        tempf = f + 2/3*Dt*kf2;
         
         tempp(1,:) = -tempp(2,:);
         tempp(N+2,:) = -tempp(N+1,:);
@@ -78,10 +101,14 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
         tempc(:,1) = -tempc(:,2);
         tempc(:,N+2) = -tempc(:,N+1);
         
+        tempf(1,:) = -tempf(2,:);
+        tempf(N+2,:) = -tempf(N+1,:);
+        tempf(:,1) = -tempf(:,2);
+        tempf(:,N+2) = -tempf(:,N+1);
         
-        
-        [kp3(2:N+1,2:N+1),kc3(2:N+1,2:N+1)] = Quimotaxi(tempp,tempc,N,Db,Dc,h,k,a,alp);
-        
+
+        [kp3(2:N+1,2:N+1),kc3(2:N+1,2:N+1),kf3(2:N+1,2:N+1)] = Quimotaxi_succinate(tempp,tempc,tempf,N,Db,Dc,Df,h,k,a,alp,gam);
+
         kp3(1,:) = -kp3(2,:);
         kp3(N+2,:) = -kp3(N+1,:);
         kp3(:,1) = -kp3(:,2);
@@ -91,10 +118,16 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
         kc3(N+2,:) = -kc3(N+1,:);
         kc3(:,1) = -kc3(:,2);
         kc3(:,N+2) = -kc3(:,N+1);
+
+        kf3(1,:) = -kf3(2,:);
+        kf3(N+2,:) = -kf3(N+1,:);
+        kf3(:,1) = -kf3(:,2);
+        kf3(:,N+2) = -kf3(:,N+1);
     
         p = p + 1/4 * Dt * (kp1 + 3*kp3);
         c = c + 1/4 * Dt * (kc1 + 3*kc3);
-        
+        f = f + 1/4 * Dt * (kf1 + 3*kf3);
+
         p(1,:) = -p(2,:);
         p(N+2,:) = -p(N+1,:);
         p(:,1) = -p(:,2);
@@ -104,6 +137,11 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
         c(N+2,:) = -c(N+1,:);
         c(:,1) = -c(:,2);
         c(:,N+2) = -c(:,N+1);
+
+        f(1,:) = -f(2,:);
+        f(N+2,:) = -f(N+1,:);
+        f(:,1) = -f(:,2);
+        f(:,N+2) = -f(:,N+1);
 
         if mod(i,100)==0
         [~,indy]=maxk(p(N/2+0.5,:),6);
@@ -128,11 +166,12 @@ c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
             gruix(1,i/100) = indy(1)+find((p(N/2+0.5,(indy(1):indy(1)+ind2y)))<=avg,1)-find((p(N/2+0.5,(1:indy(1))))>=avg,1);
         end
         end
-        if mod(i,1000)==0
+        if mod(i,100)==0
             writematrix(p,dir+"/p_"+nom+"(t="+i+").txt",'Delimiter','tab')
         end
-        if mod(i,5000)==0
+        if mod(i,100)==0
             writematrix(c,dir+"/c_"+nom+"(t="+i+").txt",'Delimiter','tab')
+            writematrix(f,dir+"/f_"+nom+"(t="+i+").txt",'Delimiter','tab')
         end
     end
 writematrix(rx,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab')
