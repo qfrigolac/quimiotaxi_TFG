@@ -6,6 +6,8 @@ f = zeros(N+2,N+2);
 
 rx = zeros(1,iter/100);
 ry = zeros(1,iter/100);
+rx2 = zeros(1,iter/100);
+ry2 = zeros(1,iter/100);
 alert = zeros(1,iter/100);
 gruix = zeros(1,iter/100);
 prof = zeros(1,iter/100);
@@ -149,11 +151,13 @@ f(floor(N/2)+2-n2:floor(N/2)+2+n2,floor(N/2)+2-n2:floor(N/2)+2+n2) = 1;
         indy = [indy(2) indy(4)];
         [~,ind2y]=min(p(N/2+0.5,indy(1):indy(2)));
         ry(1,i/100) = ind2y-1;
+        ry2(1,i/100) = (indy(2)-indy(1))/2;
         [~,indx]=maxk(p(:,N/2+0.5),6);
         indx = sort(indx);
         indx = [indx(2) indx(4)];
         [~,ind2x]=min(p(N/2+0.5,indx(1):indx(2)));
         rx(1,i/100) = ind2x-1;
+        rx2(1,i/100) = (indx(2)-indx(1))/2;
             if sum(indx==indy)~=2
                 alert(1,i/100) = 1;
             end
@@ -176,6 +180,8 @@ f(floor(N/2)+2-n2:floor(N/2)+2+n2,floor(N/2)+2-n2:floor(N/2)+2+n2) = 1;
     end
 writematrix(rx,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab')
 writematrix(ry,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+writematrix(rx2,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+writematrix(ry2,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
 writematrix(alert,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
 writematrix(gruix,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
 writematrix(prof,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
