@@ -17,18 +17,18 @@ Db =  18;
 k = 100;
 %a = 0;
 alp = 100;
-iter = 100000;
+iter = 1000;
 
-% for i = 1:1
-%     k = 25*i;
-    dir = "k_7="+k;
+for i = 1:1
+    k = 25*i;
+    dir = "k_prov="+k;
     mkdir(dir);
     parfor n12 = 0:7
         a = n12*0.1;
         nom = "(a="+a+")";
         Simulacio(N,n1,h,Dt,Db,k,a,alp,iter,nom,dir);
     end
-% end
+end
 tocBytes(gcp)
 toc
 
