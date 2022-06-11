@@ -1,4 +1,15 @@
-function Simulacio_succinate(N,n1,n2,h,Dt,Db,Df,k,a,alp,gam,iter,nom,dir)
+%%%%%%%%%%%%%%%%%% TFG Física %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%   Quimiotaxi   %%%%%%%%%%%%%%%%
+%%%%%%%%%%%% Joaquim Frigola Casals %%%%%%%%%%%%
+%%%%%%%%%  5è de Física i Matemàtiques %%%%%%%%%
+
+function Simulacio_succinate(N,n1,n2,f0,h,Dt,Db,Df,k,a,alp,gam,iter,nom,dir)
+%This funcion applies the Runge-Kuta method in order to solve the partial
+%diferential equation of the Keller and Segel model, as described in
+%section 2.3. Succinate included. Refer to the "Simulacio.m" program for
+%detailed explanation of each part of the code.
+
+
 Dc = 32;
 p = zeros(N+2,N+2);
 c = zeros(N+2,N+2);
@@ -30,7 +41,7 @@ kf3 = zeros(N+2,N+2);
 n= 0;
 p(floor(N/2)+2-n:floor(N/2)+2+n,floor(N/2)+2-n:floor(N/2)+2+n) = 10;
 c(floor(N/2)+2-n1:floor(N/2)+2+n1,floor(N/2)+2-n1:floor(N/2)+2+n1) = 1;
-f(floor(N/2)+2-n2:floor(N/2)+2+n2,floor(N/2)+2-n2:floor(N/2)+2+n2) = 1;
+f(floor(N/2)+2-n2:floor(N/2)+2+n2,floor(N/2)+2-n2:floor(N/2)+2+n2) = f0;
 %writematrix(p,"p_"+nom+"(t=0).txt",'Delimiter','tab');
     for i = 1:iter
         [kp1(2:N+1,2:N+1),kc1(2:N+1,2:N+1),kf1(2:N+1,2:N+1)] = Quimotaxi_succinate(p,c,f,N,Db,Dc,Df,h,k,a,alp,gam);
@@ -170,12 +181,21 @@ f(floor(N/2)+2-n2:floor(N/2)+2+n2,floor(N/2)+2-n2:floor(N/2)+2+n2) = 1;
             gruix(1,i/100) = indy(1)+find((p(N/2+0.5,(indy(1):indy(1)+ind2y)))<=avg,1)-find((p(N/2+0.5,(1:indy(1))))>=avg,1);
         end
         end
-        if mod(i,100)==0
+        if mod(i,1000)==0
             writematrix(p,dir+"/p_"+nom+"(t="+i+").txt",'Delimiter','tab')
         end
-        if mod(i,100)==0
+        if mod(i,10000)==0
             writematrix(c,dir+"/c_"+nom+"(t="+i+").txt",'Delimiter','tab')
             writematrix(f,dir+"/f_"+nom+"(t="+i+").txt",'Delimiter','tab')
+        end
+        if mod(i,10000)==0
+            writematrix(rx,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab')
+            writematrix(ry,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+            writematrix(rx2,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+            writematrix(ry2,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+            writematrix(alert,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+            writematrix(gruix,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
+            writematrix(prof,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab','WriteMode','append')
         end
     end
 writematrix(rx,dir+"/rx-ry-inf_"+nom+".txt",'Delimiter','tab')

@@ -3,37 +3,47 @@
 %%%%%%%%%%%% Joaquim Frigola Casals %%%%%%%%%%%%
 %%%%%%%%%  5è de Física i Matemàtiques %%%%%%%%%
 
+%This code is made to run the solutions on different parameters
+%automatically using parallel computing.
+
 clc;
 clear;
 
 tic
 ticBytes(gcp);
 
-N = 501;
-n1 = 0;
-h = 0.1;
-Dt = 0.00001;
-Db =  18;
-k = 100;
-%a = 0;
-alp = 100;
-iter = 1000;
+%Conditions on the numerical solutions
+N = 501;    %Mesh squares (NxN)
+n1 = 0;     %Half of the lateral of the square of initial attractant
+h = 0.1;    %Lenght of the lateral of a mesh cell
+Dt = 0.00001;   %Step of time
+Db =  18;   %Bacterial diffusion ctant
+k = 100;    %Chemotactic ctant
+a = 0;      %Bacterial replication ctant
+alp = 100;  %Attractant production ctant
+iter = 100000;  %Number of iterations of the solution
+    
+dir = "sim1A"; %Directory to save the results
+mkdir(dir);
 
-for i = 1:1
-    k = 25*i;
-    dir = "k_prov="+k;
-    mkdir(dir);
-    parfor n12 = 0:7
-        a = n12*0.1;
-        nom = "(a="+a+")";
-        Simulacio(N,n1,h,Dt,Db,k,a,alp,iter,nom,dir);
+alpha = [0,10,50,100];
+
+for i = 1:3
+    k = 25*i+50;
+    parfor var = 1:4 %Parallel for
+        alp = alpha(var);
+        nom = "(alp="+alp+",k="+k+")";
+        Simulacio(N,n1,h,Dt,Db,k,a,alp,iter,nom,dir); %Solution
     end
 end
+% 
 tocBytes(gcp)
 toc
 
 
-%% PART 2
+%% INTRODUCTION OF SUCCINATE
+
+%Same as before but including the succinate.
 
 clc;
 clear;
@@ -41,27 +51,32 @@ clear;
 tic
 ticBytes(gcp);
 
+
 N = 501;
 n1 = 0;
 h = 0.1;
 Dt = 0.00001;
 Db =  18;
-Df = 32;
+Df = 32; %Succinate diffusion ctant
 k = 100;
 a = 0;
 alp = 100;
-iter = 1000;
+iter = 100000;
+gam = 0.0001; %Succinate consumption ctant
+n2 = 70; %Half of the lateral of the square of initial succinate
+f0 = 1;
 
-%for i = 0:4
-%     gam = 25*i
-    gam = 0.0001;
-    dir = "sim2_provs";
-    mkdir(dir);
+dir = "sim3Bb";
+mkdir(dir);
+
+for i = 1
+    f0 = i;
     parfor j = 0:4
-        n2 = j*10;
-        nom = "des(nf="+n2+",gam="+gam+")";
-        Simulacio_succinate(N,n1,n2,h,Dt,Db,Df,k,a,alp,gam,iter,nom,dir);
+        a = j*0.1;
+        nom = "des(nf="+n2+",f0="+f0+"a="+a+")";
+        Simulacio_succinate(N,n1,n2,f0,h,Dt,Db,Df,k,a,alp,gam,iter,nom,dir);
     end
-% end
+end
+
 tocBytes(gcp)
 toc

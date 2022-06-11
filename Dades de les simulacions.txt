@@ -9,7 +9,7 @@ a = 0.3;
 alp = 20;
 iter = 10000;
 
-Cas 3:
+Cas 3: -ANALITZAT
 N = 501;
 h = 0.1;
 Dt = 0.00001;
@@ -18,7 +18,7 @@ a = 0;
 alp = 1;
 iter = 10000;
 
-Cas 4:
+Cas 4: -ANALITZAT
 N = 501;
 %n1 = 0;
 h = 0.1;
