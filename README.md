@@ -13,14 +13,14 @@ Els paràmetres disponibles que es poden modificar en aquest treball son els seg
 | dt | Pas del temps. Al treball com a $\Delta t$.
 | Db | Constant de difusió dels bacteris. Al treball com a $D_b$ |
 | Dc | Constant de difusió de l'atractant. Al treball com a $D_c$ |
-| Df | Constant de difusió del succinat. Al treball com a $D_f$. (Només en els programes "_succinat.m". |
+| Df | Constant de difusió del succinat. Al treball com a $D_f$. (Només en els programes "_succinat.m"). |
 | k | Constant de quimiotaxi. En el treball com a $k$. |
 | a | Constant de replicació dels bacteris. En el treball com a $a$. |
 | alp | Constant de producció de l'atractant. En el treball com a $\alpha$. |
-| gam | Constant de consum del succinat. Al treball com a $\gamma$. (Només en els programes "_succinat.m". |
+| gam | Constant de consum del succinat. Al treball com a $\gamma$. (Només en els programes "_succinat.m"). |
 | n1 | Meitat del quadrat d'atractant inicial. Al treball com a $l/2$. |
-| n2 | Meitat del quadrat de succinat inicial. Al treball com a $l_f/2$. (Només en els programes "_succinat.m". |
-| f0 | Concentració inicial de succinat. Al treball com a $f_0$.
+| n2 | Meitat del quadrat de succinat inicial. Al treball com a $l_f/2$. (Només en els programes "_succinat.m"). |
+| f0 | Concentració inicial de succinat. Al treball com a $f_0$. (Només en els programes "_succinat.m").
 
 
 ## 2. Funcionament del programa
