@@ -75,4 +75,4 @@ Mitjançant el codi Python es processen grans quanitats de dades per fer-ne els 
 En el GitHub trobem una selcció de les dades usades per a fer el TFG. El total de fitxer .txt generats per les resolucions numèriques de tot el TFG pesen més de 50Gb i no s'inclouen en aquest repositori per motius evidents.
 
 ## 5. Autoria
-Codis escrits per Joaquim Frigola Casals. Vull agrair a Joan Frigola Rissech l'assassorament i l'ajuda a l'hora de fer els gràfics amb Python. Així mateix, vull agraïr a Daniel Campos Moreno, director d'aquest Treball de Final de Grau l'ajuda i consells rebuts en tot moment.
+Codis escrits per Joaquim Frigola Casals. Vull agrair a Joan Frigola Rissech l'assassorament i l'ajuda a l'hora de fer els gràfics amb Python. Així mateix, vull agrair a Daniel Campos Moreno, director d'aquest Treball de Final de Grau l'ajuda i consells rebuts en tot moment.
